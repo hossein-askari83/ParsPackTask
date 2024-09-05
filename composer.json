@@ -12,6 +12,8 @@
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
+        "symfony/property-access": "^7.1",
+        "symfony/security-bundle": "^7.1",
         "tymon/jwt-auth": "^2.1"
     },
     "require-dev": {

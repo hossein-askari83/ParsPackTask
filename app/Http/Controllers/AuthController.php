@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterRequest;
-use App\Entities\User;
 use App\Facades\UserFacade;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Http\Requests\LoginRequest;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -19,7 +18,10 @@ use Symfony\Component\HttpFoundation\Response;
 class AuthController extends Controller
 {
     /**
-     * Register a new user.
+     * @api {POST} /register/
+     * @apiDescription Register a user
+     * @apiBody {username}
+     * @apiBody {password}
      *
      * @param RegisterRequest $request
      * @return JsonResponse
@@ -40,12 +42,15 @@ class AuthController extends Controller
     }
 
     /**
-     * Login the user and generate a JWT token.
-     *
+     * @api {POST} /login/
+     * @apiDescription Login the user and generate a JWT token
+     * @apiBody {username}
+     * @apiBody {password}
+     * 
      * @param Request $request
      * @return JsonResponse
      */
-    public function login(Request $request): JsonResponse
+    public function login(LoginRequest $request): JsonResponse
     {
         $username = $request->input('username');
         $password = $request->input('password');
@@ -53,7 +58,6 @@ class AuthController extends Controller
         $user = UserFacade::getUserByCredentials($username, $password);
         if (!$user)
             return response()->json(['error' => 'Invalid credentials'], Response::HTTP_UNAUTHORIZED);
-
 
         $token = JWTAuth::fromUser($user);
 

@@ -3,6 +3,7 @@
 namespace App\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 /**
  * Comment entity representing a user's comment on a product.
@@ -19,6 +20,8 @@ class Comment
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "AUTO")]
     #[ORM\Column(type: "integer")]
+    #[Groups('basic')]
+
     private ?int $id = null;
 
     /**
@@ -26,6 +29,8 @@ class Comment
      */
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "comments")]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups('with-user')]
+
     private User $user;
 
     /**
@@ -33,12 +38,16 @@ class Comment
      */
     #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: "comments")]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups('with-product')]
+
     private Product $product;
 
     /**
      * @var string The content of the comment.
      */
     #[ORM\Column(type: "text")]
+    #[Groups('basic')]
+
     private string $comment;
 
     /**

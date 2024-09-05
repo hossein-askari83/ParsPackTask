@@ -3,6 +3,7 @@
 namespace App\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
@@ -21,18 +22,23 @@ class Product
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: "AUTO")]
     #[ORM\Column(type: "integer")]
+    #[Groups('basic')]
+
     private ?int $id = null;
 
     /**
      * @var string The name of the product.
      */
     #[ORM\Column(type: "string", length: 255, unique: true)]
+    #[Groups('basic')]
+
     private string $name;
 
     /**
      * @var Collection<int, Comment> A collection of comments associated with this product.
      */
-    #[ORM\OneToMany(mappedBy: "product", targetEntity: Comment::class, cascade: ["persist", "remove"])]
+    #[ORM\OneToMany(mappedBy: "product", targetEntity: Comment::class, cascade: ["persist", "remove"], fetch: "EAGER")]
+    #[Groups('with-comments')]
     private Collection $comments;
 
     /**

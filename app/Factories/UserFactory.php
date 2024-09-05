@@ -3,7 +3,7 @@
 namespace App\Factories;
 
 use App\Entities\User;
-use App\Interfaces\Factories\UserFactoryInterface;
+use App\Factories\Interfaces\UserFactoryInterface;
 
 class UserFactory implements UserFactoryInterface
 {

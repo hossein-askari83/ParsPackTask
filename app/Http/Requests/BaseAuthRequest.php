@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * Validates the user registration request.
  */
-class RegisterRequest extends BaseAuthRequest
+class BaseAuthRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,10 +29,10 @@ class RegisterRequest extends BaseAuthRequest
      */
     public function rules(): array
     {
-        $rules = parent::rules();
-        $rules['username'] = 'required|string|max:255|unique:App\Entities\User,username';
-        
-        return $rules;
+        return [
+            'username' => 'required|string|max:255',
+            'password' => 'required|string|min:8',
+        ];
     }
 
     /**
@@ -43,6 +43,11 @@ class RegisterRequest extends BaseAuthRequest
      */
     protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
     {
-        parent::failedValidation($validator);
+        $response = response()->json([
+            'success' => false,
+            'errors' => $validator->errors()
+        ], Response::HTTP_UNPROCESSABLE_ENTITY);
+
+        throw new \Illuminate\Validation\ValidationException($validator, $response);
     }
 }

@@ -31,4 +31,13 @@ interface UserServiceInterface
      * @return void
      */
     public function removeUserByUsername(string $username): void;
+
+
+    /**
+     * Find user by id
+     * 
+     * @param int $id
+     * @return User|null
+     */
+    public function findUser(int $id): ?User;
 }

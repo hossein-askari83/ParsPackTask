@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,9 +17,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/**
- * Register a new user.
- */
+
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+Route::group(['middleware' => ['auth:api']], function () {
+
+    Route::get('/products', [ProductController::class, 'index']);
+
+    Route::prefix('/comment')->group(function () {
+        Route::post('', [CommentController::class, 'store']);
+    });
+});

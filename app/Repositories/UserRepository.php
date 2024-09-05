@@ -3,41 +3,28 @@
 namespace App\Repositories;
 
 use App\Entities\User;
-use App\Repositories\Interfaces\UserRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
-class UserRepository implements UserRepositoryInterface
+class UserRepository extends BaseEntityRepository
 {
     /**
      * UserRepository constructor.
      *
      * @param EntityManagerInterface $entityManager
      */
-    public function __construct(private readonly EntityManagerInterface $entityManager) {}
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        parent::__construct($entityManager, User::class);
+    }
 
     /**
-     * @inheritDoc
+     * Find user by username
+     * 
+     * @param string $username
+     * @return User|null
      */
     public function findByUsername(string $username): ?User
     {
-        return $this->entityManager->getRepository(User::class)->findOneBy(['username' => $username]);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function save(User $user): void
-    {
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function remove(User $user): void
-    {
-        $this->entityManager->remove($user);
-        $this->entityManager->flush();
+        return $this->findOneBy(['username' => $username]);
     }
 }

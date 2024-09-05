@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use App\Entities\User;
-use App\Interfaces\Factories\UserFactoryInterface;
-use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Factories\Interfaces\UserFactoryInterface;
+use App\Repositories\UserRepository;
 use App\Services\Interfaces\UserServiceInterface;
 
 class UserService implements UserServiceInterface
@@ -13,11 +13,11 @@ class UserService implements UserServiceInterface
     /**
      * UserService constructor.
      *
-     * @param UserRepositoryInterface $userRepository
+     * @param UserRepository $userRepository
      */
     public function __construct(
         private readonly UserFactoryInterface $userFactory,
-        private readonly UserRepositoryInterface $userRepository
+        private readonly UserRepository $userRepository
     ) {}
 
     /**
@@ -55,5 +55,12 @@ class UserService implements UserServiceInterface
         $user = $this->userRepository->findByUsername($username);
 
         if ($user) $this->userRepository->remove($user);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function findUser(int $id): ?User {
+        return $this->userRepository->find($id);
     }
 }

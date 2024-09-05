@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * Validates the user registration request.
  */
-class RegisterRequest extends BaseAuthRequest
+class LoginRequest extends BaseAuthRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,10 +29,7 @@ class RegisterRequest extends BaseAuthRequest
      */
     public function rules(): array
     {
-        $rules = parent::rules();
-        $rules['username'] = 'required|string|max:255|unique:App\Entities\User,username';
-        
-        return $rules;
+        return parent::rules();
     }
 
     /**
