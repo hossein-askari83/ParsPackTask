@@ -1,0 +1,38 @@
+version: '3.5'
+services: 
+  # nginx webservice
+  web:
+    build: ./docker-compose/nginx/ 
+    restart: always
+    ports: 
+       - "8015:80"
+    volumes:
+       - ./:/var/www/html
+    links:
+       - fpm
+    networks:
+       - default
+
+  # php fpm
+  fpm:
+    build: ./
+    command: --allow-to-run-as-root
+    restart: always
+    volumes:
+       - ./:/var/www/html
+       - /opt/myprogram:/opt/myprogram
+    links: 
+       - db
+
+  # mysql database
+  db:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+       - "33061:3306"
+    environment:
+       MYSQL_ALLOW_EMPTY_PASSWORD: "on"
+    volumes:
+       - ./docker-compose/mysql:/var/lib/mysql
+
