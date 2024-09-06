@@ -18,14 +18,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::group(['middleware' => ['auth:api']], function () {
 
-    Route::get('/products', [ProductController::class, 'index']);
+    Route::get('/products', [ProductController::class, 'index'])->name('product.index');
 
     Route::prefix('/comment')->group(function () {
-        Route::post('', [CommentController::class, 'store']);
+        Route::post('', [CommentController::class, 'store'])->name('comment.store');
     });
 });

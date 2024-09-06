@@ -58,6 +58,12 @@ To create a new product with a given name, use the following command:
 php artisan product:create {name}
 ```
 
+Run the following command for run tests
+
+```bash
+php artisan test
+```
+
 ## Files
 
 ### Product Comment Count File

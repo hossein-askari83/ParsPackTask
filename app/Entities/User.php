@@ -176,4 +176,21 @@ class User implements JWTSubject
     {
         return [];
     }
+
+    /**
+     * Set the comments associated with the user.
+     *
+     * @param Collection<int, Comment> $comments The new collection of comments.
+     * @return self The current user instance.
+     */
+    public function setComments(Collection $comments): self
+    {
+        $this->comments = $comments;
+
+        foreach ($comments as $comment) {
+            $comment->setUser($this);
+        }
+
+        return $this;
+    }
 }

@@ -14,6 +14,7 @@ class UserService implements UserServiceInterface
      * UserService constructor.
      *
      * @param UserRepository $userRepository
+     * @param UserFactoryInterface $userFactory
      */
     public function __construct(
         private readonly UserFactoryInterface $userFactory,

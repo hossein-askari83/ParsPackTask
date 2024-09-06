@@ -90,4 +90,21 @@ class Product
     {
         return $this->comments;
     }
+
+   /**
+     * Set the comments associated with the product.
+     *
+     * @param Collection<int, Comment> $comments The new collection of comments.
+     * @return self The current Product instance.
+     */
+    public function setComments(Collection $comments): self
+    {
+        $this->comments = $comments;
+
+        foreach ($comments as $comment) {
+            $comment->setProduct($this);
+        }
+
+        return $this;
+    }
 }
